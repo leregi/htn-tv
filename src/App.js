@@ -10,18 +10,19 @@ import RegisterForm from './pages/RegisterForm';
 import Membership from './pages/payment/Membership';
 import Credit from './pages/payment/Credit'
 
-function App() {
+
+function App() { 
   return (
-    <Switch>
-      <Route exact path="/" component={Main} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-      <Route path="/plan" component={Plan} />
-      <Route path="/registration" component={Registration} />
-      <Route path="/regform" component={RegisterForm} />
-      <Route path="/membership" component={Membership} />
-      <Route path="/credit" component={Credit} />
-    </Switch>
+      <Switch>
+        <Route exact path="/" component={Main} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/plan" component={Plan} />
+        <Route path="/registration" component={Registration} />
+        <Route path="/regform" component={RegisterForm} />
+        <Route path="/membership" component={Membership} />
+        <Route path="/credit" component={Credit} />
+      </Switch>
   );
 }
 

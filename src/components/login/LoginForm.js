@@ -3,16 +3,31 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import FLogo from '../../svg/flogo.svg';
 import { generateMedia } from 'styled-media-query';
-
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import axios from 'axios';
-
+import { connect } from 'react-redux';
+import { INCREMENT } from '../../redux/actions/types';
+import { login } from '../../redux/actions/actionCreators';
+import Api from '../../services/api'; 
 /**
 * @author
 * @class 
 **/
+
+// console.log(store.getState())
+const mapStateToProps = state => {
+    return { 
+        authCredentials : state.auth
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        auth : authData => dispatch(login(authData))
+    }
+}
 
 const initialValues = {
     email: '',
@@ -31,7 +46,12 @@ const loginSchema = Yup.object().shape({
 
 class LoginForm extends Component {
 
+    componentDidMount(){
+        // this.props.auth('Test');
+    }
+
     render() {
+        console.log(this.props)
             return (
                 <div>
                     < FormContainer >
@@ -40,14 +60,16 @@ class LoginForm extends Component {
                                 initialValues={initialValues}
                                 validationSchema={loginSchema}
                                 onSubmit={(values) => {
-                                    axios.post('http://localhost:1337/auth/local', {
-                                        identifier: values.email,
-                                        password: values.password
-                                    }).then(res => {
-                                        console.log(res.data.user);
-                                        console.log(res.data.jwt)
-                                    })
-                                   console.log(values.email, values.password)
+                                    
+                                //    console.log(values.email, values.password)
+                                   const result = Api.login(values.email, values.password);
+                                   result.then(res => {
+                                    //    console.log( res.data );
+                                       this.props.auth(res.data.jwt);
+                                   });
+                                   
+                                   console.log(this.props.authCredentials);
+                                   
                                 }}
                                 
                             render = {({errors, touched, values, handleSubmit, handleChange }) => {
@@ -116,7 +138,7 @@ class LoginForm extends Component {
  
 
 
-export default LoginForm;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
 
 // Media Login Form
 const customMedia = generateMedia({
