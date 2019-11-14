@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import FLogo from '../../svg/flogo.svg';
 import { generateMedia } from 'styled-media-query';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import axios from 'axios';
+// import axios from 'axios';
 import { connect } from 'react-redux';
-import { INCREMENT } from '../../redux/actions/types';
+// import { INCREMENT } from '../../redux/actions/types';
 import { login } from '../../redux/actions/actionCreators';
 import Api from '../../services/api'; 
 /**
@@ -67,8 +67,9 @@ class LoginForm extends Component {
                                     //    console.log( res.data );
                                        this.props.auth(res.data.jwt);
                                    });
-                                   
+                                    if(this.props.authCredentials.isLogged === true) return <Redirect to="/membership" />
                                    console.log(this.props.authCredentials);
+                                   console.log(this.props.authCredentials.isLogged)
                                    
                                 }}
                                 
@@ -105,7 +106,9 @@ class LoginForm extends Component {
                                                             <span style={{color: '#B589D6'}}>password Error</span> */}
                                                     </div>
                                                     <div className="input-container">
-                                                        <Button type="submit">Sign In</Button>
+                                                        <Button type="submit">
+                                                            < Link to = "/membership" >Sign In</Link>
+                                                        </Button>
                                                     </div>
 
                                                     <label className="checkbox-container">
