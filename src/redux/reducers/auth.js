@@ -2,7 +2,8 @@ import { LOGIN, REGISTER,LOGOUT } from "../actions/types";
 
 const initialState = {
     token : null,
-    isLogged : false
+    isLogged : false,
+    isRegisted: false
 }
 
 export default function auth(state = initialState, action) {
@@ -14,7 +15,11 @@ export default function auth(state = initialState, action) {
                 isLogged : true
             };
         case REGISTER :
-            return state;
+            return {
+                ...state,
+                token : action.token,
+                isRegisted : true
+            };
         case LOGOUT :
             return {
                 ...initialState

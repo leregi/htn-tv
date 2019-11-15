@@ -6,9 +6,7 @@ import { generateMedia } from 'styled-media-query';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-// import axios from 'axios';
 import { connect } from 'react-redux';
-// import { INCREMENT } from '../../redux/actions/types';
 import { login } from '../../redux/actions/actionCreators';
 import Api from '../../services/api'; 
 /**
@@ -54,7 +52,7 @@ class LoginForm extends Component {
         console.log(this.props)
             return (
                 <div>
-                    < FormContainer >
+                    <FormContainer>
                         <div className = "form-container">
                             <Formik
                                 initialValues={initialValues}

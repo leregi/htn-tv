@@ -3,160 +3,102 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import HeadForm from '../components/register/HeadForm'
 import {Button} from '../components/Button'
+import { Formik } from "formik";
 
-const regexp = RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/);
+// const regexp = RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/);
 
-const initState = {
+const initialsValues = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    firstNameError: '',
-    lastNameError: '',
-    emailError:'',
-    passwordError:''
 }
 
 class RegisterForm extends Component {
-    state = initState;
-
-    handleFirstNameChange = e => {
-      this.setState({
-          firstName: e.target.value
-      })
-  }
-
-  handleLastNameChange = e => {
-    this.setState({
-        lastName: e.target.value
-    })
-}
-
-    handleEmailChange = e => {
-        this.setState({
-            email: e.target.value
-        })
-    }
-
-    handlePasswordChange = e => {
-        this.setState({
-            password: e.target.value
-        })
-    }
-
-    // Validation
-    validate = () => {
-        let inputError = false;
-        const errors = {
-            firstNameError: '',
-            lastNameError: '',
-            emailError: '',
-            passwordError: ''
-        }
-        
-
-        if(this.state.firstName.length < 5) {
-          inputError = true;
-          errors.firstNameError = "Minimum 5 entry"
-        }
-
-        if(this.state.lastName.length < 5) {
-          inputError = true;
-          errors.lastNameError = "Minimum 5 entry"
-        }
-
-        if(!this.state.email){
-            inputError = true;
-            errors.emailError = 'Please enter a valid email'
-        }else if (!this.state.email.match(regexp)) {
-            inputError = true;
-            errors.emailError = (
-                <span style={{color: 'red'}}>Your email address must be valid</span>
-            )
-        }
-
-        if(this.state.password.length < 4) {
-            inputError = true;
-            errors.passwordError = "Your password must contain between 4 and 60 characters"
-        }
-        this.setState({
-            ...errors
-        })
-        return inputError;
-    }
-
-    onSubmit = e => {
-        e.preventDefault()
-
-        const err = this.validate();
-        if(!err) {
-            this.setState(initState);
-        }
-    }
 
     render() {
         return(
-        <FormContainer>
-            <HeadForm />
-            <div className="wrapper">
-              <div className="form-wrapper">
-                <h1>Sign Up</h1>
-                <form>
-                    <div className="firstName">
-                      <label>First Name</label>
-                        <input 
-                          className={this.state.firstNameError ? "error" : null}
-                          type="text" 
-                          onChange={this.handleFirstNameChange} 
-                          required 
-                          value={this.state.firstName}/>
-                          
-                        <span style={{color: '#4B0082'}}>{this.state.firstNameError}</span>
-                    </div>
+          <>
+            <FormContainer>
+                  <HeadForm />
+                  <div className="wrapper">
+                    <div className="form-wrapper">
+                      <h1>Sign Up</h1>
+                          <Formik
+                            initialValues={initialsValues}
+                            onSubmit={(values) => {
+                              console.log(values)
+                            }}
+                            render = {({ errors, touched, values, handleSubmit, handleChange }) => {
+                                  return (
+                                            <form onSubmit={handleSubmit}>
+                                                <div className="firstName">
+                                                  <label>First Name</label>
+                                                    <input 
+                                                      type="text"
+                                                      id="firstName"
+                                                      name="firstName"
+                                                      value={values.firstName}
+                                                      onChange={handleChange} 
+                                                      required
+                                                      />
+                                                      
+                                                    <span style={{color: '#4B0082'}}>error1</span>
+                                                </div>
 
-                    <div className="lastName">
-                      <label>Last Name</label>
-                        <input 
-                          className={this.state.lastNameError ? "error" : null}
-                          type="text" 
-                          onChange={this.handleLastNameChange} 
-                          required 
-                          value={this.state.lastName}/>
-                          
-                        <span style={{color: '#4B0082'}}>{this.state.lastNameError}</span>
-                    </div>
+                                                <div className="lastName">
+                                                  <label>Last Name</label>
+                                                    <input 
+                                                      type="text"
+                                                      id="lastName"
+                                                      name="lastName"
+                                                      value={values.lastName} 
+                                                      onChange={handleChange} 
+                                                      required
+                                                      />
+                                                      
+                                                    <span style={{color: '#4B0082'}}>error2</span>
+                                                </div>
 
-                    <div className="email">
-                      <label>Email or Phone Number</label>
-                        <input 
-                          className={this.state.emailError ? "error" : null}
-                          type="email" 
-                          onChange={this.handleEmailChange} 
-                          required 
-                          value={this.state.email}/>
-                        <span style={{color: '#4B0082'}}>{this.state.emailError}</span>
-                    </div>
-                <div className="password">
-                  <label>Password</label>
-                    <input 
-                      className={this.state.passwordError ? "error" : null} 
-                      type="password" 
-                      onChange={this.handlePasswordChange} 
-                      required
-                      value={this.state.password} />
-                      <span style={{color: '#4B0082'}}>{this.state.passwordError}</span>
+                                                <div className="email">
+                                                  <label>Email or Phone Number</label>
+                                                    <input
+                                                      type="email"
+                                                      id="email"
+                                                      name="email"
+                                                      value={values.email} 
+                                                      onChange={handleChange} 
+                                                      required
+                                                      
+                                                      />
+                                                    <span style={{color: '#4B0082'}}>error email</span>
+                                                </div>
+                                            <div className="password">
+                                              <label>Password</label>
+                                                <input
+                                                  id="password"
+                                                  type="password"
+                                                  name="password"
+                                                  value={values.password} 
+                                                  onChange={handleChange} 
+                                                  required 
+                                                  />
+                                                  <span style={{color: '#4B0082'}}>error password</span>
+                                            </div>
+                                          <div className="createAccount">
+                                              <Button type="submit">Create an Account</Button>
+                                              <br />
+                                              <small>Already Have an Account? &nbsp; <Link to="/login" style={{color: 'purple'}}><b><i>Login</i></b></Link></small>
+                                          </div>
+                                          
+                                        
+                                      </form>
+                              )}}>
+                          </Formik>
                 </div>
-               <div className="createAccount">
-                   <Button type="submit" onClick={e => this.onSubmit(e)}><Link to="/membership">Create an Account</Link></Button>
-                   <br />
-                   <small>Already Have an Account? &nbsp; <Link to="/login" style={{color: 'purple'}}><b><i>Login</i></b></Link></small>
-               </div>
-              
-             
-           </form>
-           </div>
-       </div>
-   </FormContainer>
+            </div>
+        </FormContainer>
+      </>
     )
    }
  }
