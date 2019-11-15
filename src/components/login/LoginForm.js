@@ -3,9 +3,12 @@ import styled from 'styled-components'
 import { Link, Redirect } from 'react-router-dom'
 import FLogo from '../../svg/flogo.svg';
 import { generateMedia } from 'styled-media-query';
+
+// Formik and Yup to manage form submition and values validation
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+// redux
 import { connect } from 'react-redux';
 import { login } from '../../redux/actions/actionCreators';
 import Api from '../../services/api'; 
@@ -14,13 +17,14 @@ import Api from '../../services/api';
 * @class 
 **/
 
-// console.log(store.getState())
+// get the global auth state
 const mapStateToProps = state => {
     return { 
         authCredentials : state.auth
     }
 }
 
+// dispatch an action to auth reducer
 const mapDispatchToProps = dispatch => {
     return {
         auth : authData => dispatch(login(authData))

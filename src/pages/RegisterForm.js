@@ -1,16 +1,46 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import styled from 'styled-components'
 import HeadForm from '../components/register/HeadForm'
 import {Button} from '../components/Button'
+
+// Formik and Yup to manage form submition and values validation
 import { Formik } from "formik";
 import * as Yup from 'yup';
+
+// redux
+
+import { connect } from 'react-redux';
+import { register } from '../redux/actions/actionCreators';
+import Api from '../services/api';
+
+
+// get the global auth state
+const mapStateToProps = state => {
+  return {
+    authCredentials: state.auth
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    auth: authData => dispatch(register(authData))
+  }
+}
+
+
+
+
+
 const initialsValues = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
 }
+
+
+
 const registratinSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(4)
@@ -18,7 +48,8 @@ const registratinSchema = Yup.object().shape({
     lastName: Yup.string()
       .min(4)
       .required("You must enter lastname"),
-      email: Yup.email()
+      email: Yup.string()
+          .email()
         .required("enter a valid Email"),
       password: Yup.string()
           .min(4)
@@ -38,7 +69,13 @@ class RegisterForm extends Component {
                             initialValues={initialsValues}
                             validationSchema={registratinSchema}
                             onSubmit={(values) => {
+                              const username = values.firstName + values.lastName;
                               console.log(values)
+                              const result = Api.registration(username, values.email, values.password);
+                              result.then(res => {
+                                this.props.auth(res.data.jwt)
+                              }).catch(() => <Redirect to="register" />)
+                              console.log(this.props.authCredentials)
                             }}
                             render = {({ errors, touched, values, handleSubmit, handleChange }) => {
                                   return (
@@ -54,7 +91,7 @@ class RegisterForm extends Component {
                                                       required
                                                       />
                                                       
-                                                    <span style={{color: '#4B0082'}}>error1</span>
+                                                    {/* <span style={{color: '#4B0082'}}>error1</span> */}
                                                 </div>
 
                                                 <div className="lastName">
@@ -68,7 +105,7 @@ class RegisterForm extends Component {
                                                       required
                                                       />
                                                       
-                                                    <span style={{color: '#4B0082'}}>error2</span>
+                                                    {/* <span style={{color: '#4B0082'}}>error2</span> */}
                                                 </div>
 
                                                 <div className="email">
@@ -94,28 +131,29 @@ class RegisterForm extends Component {
                                                   onChange={handleChange} 
                                                   required 
                                                   />
-                                                  <span style={{color: '#4B0082'}}>error password</span>
+                                                  {/* <span style={{color: '#4B0082'}}>error password</span> */}
                                             </div>
                                           <div className="createAccount">
                                               <Button type="submit">Create an Account</Button>
                                               <br />
                                               <small>Already Have an Account? &nbsp; <Link to="/login" style={{color: 'purple'}}><b><i>Login</i></b></Link></small>
-                                          </div>
-                                          
-                                        
+                                          </div> 
                                       </form>
                               )}}>
-                          </Formik>
+                      </Formik>
                 </div>
             </div>
         </FormContainer>
+        {
+          this.props.authCredentials.isRegisted ? <Redirect to="/membership" /> : null
+        }
       </>
     )
    }
  }
 
 
-export default RegisterForm;
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
 
 const FormContainer = styled.div`
 
