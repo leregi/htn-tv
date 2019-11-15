@@ -38,7 +38,7 @@ const loginSchema = Yup.object().shape({
         .required("Enter a Valid Email"),
     password: Yup.string()
         .min(4)
-        .required("Must must have 4 character")
+        .required("Must must have 4 characters")
 })
 
 

@@ -4,16 +4,26 @@ import styled from 'styled-components'
 import HeadForm from '../components/register/HeadForm'
 import {Button} from '../components/Button'
 import { Formik } from "formik";
-
-// const regexp = RegExp(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/);
-
+import * as Yup from 'yup';
 const initialsValues = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
 }
-
+const registratinSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(4)
+    .required("You  must Enter firstname"),
+    lastName: Yup.string()
+      .min(4)
+      .required("You must enter lastname"),
+      email: Yup.email()
+        .required("enter a valid Email"),
+      password: Yup.string()
+          .min(4)
+          .required("Password must have 4 characters")
+})
 class RegisterForm extends Component {
 
     render() {
@@ -26,6 +36,7 @@ class RegisterForm extends Component {
                       <h1>Sign Up</h1>
                           <Formik
                             initialValues={initialsValues}
+                            validationSchema={registratinSchema}
                             onSubmit={(values) => {
                               console.log(values)
                             }}
