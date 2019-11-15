@@ -64,12 +64,10 @@ class LoginForm extends Component {
                                 //    console.log(values.email, values.password)
                                    const result = Api.login(values.email, values.password);
                                    result.then(res => {
-                                    //    console.log( res.data );
                                        this.props.auth(res.data.jwt);
-                                   });
-                                    if(this.props.authCredentials.isLogged === true) return <Redirect to="/membership" />
-                                   console.log(this.props.authCredentials);
-                                   console.log(this.props.authCredentials.isLogged)
+                                   }).catch(() => <Redirect to="/login" />)
+                                //    console.log(this.props.authCredentials);
+                                //    console.log(this.props.authCredentials.isLogged) 
                                    
                                 }}
                                 
@@ -107,7 +105,7 @@ class LoginForm extends Component {
                                                     </div>
                                                     <div className="input-container">
                                                         <Button type="submit">
-                                                            < Link to = "/membership" >Sign In</Link>
+                                                            Sign In
                                                         </Button>
                                                     </div>
 
@@ -132,6 +130,9 @@ class LoginForm extends Component {
                                             </form>         
                                     )}}>
                             </Formik>
+                            {
+                                this.props.authCredentials.isLogged ? <Redirect to = "/membership" /> : null
+                            }
                         </div>
                     </FormContainer>
                 </div>

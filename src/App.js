@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component} from 'react';
 import './css/App.css';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Main from './pages';
@@ -22,35 +22,42 @@ const mapStateToProps = state => {
 }
 
 
+class App extends Component {
 
-const PrivateRoute = ({ component: Component, ...rest }) => ( 
-
-<Route {...rest} render = { (props) => (
-      this.props.authCredentials.isLogged === true ?
-      // {console.log(this.props.authCredentials)}
-      < Component { ...props } /> :
-      < Redirect to = '/login' / >
-    )
+  ProtectedRoutes = () => {
+    
+    if (this.props.authCredentials.isLogged){
+      return (
+        <>
+          <Route path = "/membership"component = {Membership} />
+          <Route path="/credit" component={Credit} />
+        </>
+      )
+    }else
+    {
+      return < Redirect to = "/login" />
+    }
   }
-  />
-)
 
-
-function App() { 
-  return (
-      <Switch>
-        <Route exact path="/" component={Main} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/plan" component={Plan} />
-        <Route path="/registration" component={Registration} />
-        <Route path="/regform" component={RegisterForm} />
-        <PrivateRoute path="membership" component={Membership} />
-        {/* <Route path="/membership" component={Membership} /> */}
-        <Route path="/credit" component={Credit} />
-      </Switch>
-  );
+  componentDidMount() {
+    console.log(this.props.authCredentials , "merde")
+  }
+  render() {
+    return (
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/plan" component={Plan} />
+          <Route path="/registration" component={Registration} />
+          <Route path="/regform" component={RegisterForm} />
+          {this.ProtectedRoutes()}
+        </Switch>
+    );
+  }
 }
+
+
 
 export default connect(mapStateToProps, null)(App);
 
