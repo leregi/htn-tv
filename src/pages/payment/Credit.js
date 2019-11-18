@@ -7,10 +7,23 @@ import { Icon } from 'react-icons-kit'
 import {ic_credit_card} from 'react-icons-kit/md/ic_credit_card'
 
 
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+
+
+
 /**
 * @author
 * @class 
 **/
+
+const initialValues = {
+   cardNumber: "",
+   name: "",
+   cardExpiry: "",
+   cardCVC: ""
+}
 
 class Credit extends Component {
  state = {}
@@ -29,106 +42,121 @@ class Credit extends Component {
                            </div>
                        </div>
                    </div>
-                   <div className="panel-body">
-                       <form className="form">
-                           <div className="row">
-                               <div className="content">
-                                   <div className="form-group">
-                                       <label className="number">CARD NUMBER</label>
-                                       <div className="input-group">
-                                       <input 
-                                        className="input-card"
-                                         type="tel" 
-                                         name="cardNumber" 
-                                         placeholder="Valid Card Number" 
-                                         autocomplete="cc-number" 
-                                         required
-                                         aria-required="true" />
-                                         <span className="icon">
-                                         <Icon className="Icon" icon={ic_credit_card} />
-                                         </span>
-                                       </div>
-                                   </div>
-                               </div>
-                           </div>
+                   <Formik
+                     initialValues={initialValues}
+                     onSubmit = {(values) => {
+                           console.log(values)
+                     }}
+                     render = {({ values, handleSubmit, handleChange}) => {
+                        return(
+                                 <div className="panel-body">
+                                    <form className="form" onSubmit={handleSubmit}>
+                                          <div className="row">
+                                             <div className="content">
+                                                <div className="form-group">
+                                                      <label className="number">CARD NUMBER</label>
+                                                      <div className="input-group">
+                                                      <input 
+                                                      className="input-card"
+                                                      id="cardNumber"
+                                                      type="tel" 
+                                                      name="cardNumber"
+                                                      value={values.cardNumber}
+                                                      onChange={handleChange}
+                                                      placeholder="Valid Card Number" 
+                                                      autoComplete="cc-number" 
+                                                      required
+                                                      aria-required="true" />
+                                                      <span className="icon">
+                                                      <Icon className="Icon" icon={ic_credit_card} />
+                                                      </span>
+                                                      </div>
+                                                </div>
+                                             </div>
+                                          </div>
 
-                           <div className="row">
-                               <div className="content3">
-                                   <div className="form-group">
-                                       <label className="name">
-                                           Name on Card
-                                       </label>
-                                       <input 
-                                         type="text" 
-                                         class="formname" 
-                                         name="name"
-                                         placeholder="Name on card" />
-                                   </div>
-                               </div>
-                           </div>
+                                          <div className="row">
+                                             <div className="content3">
+                                                <div className="form-group">
+                                                      <label className="name">
+                                                         Name on Card
+                                                      </label>
+                                                      <input 
+                                                      type="text" 
+                                                      class="formname" 
+                                                      name="name"
+                                                      value={values.name}
+                                                      onChange={handleChange}
+                                                      placeholder="Name on card" />
+                                                </div>
+                                             </div>
+                                          </div>
 
-                           <div className="row">
-                               <div className="content1">
-                                   <div className="form-group">
-                                       <label className="exp">
-                                           <span className="visible">EXP</span>&nbsp;DATE
-                                           <input 
-                                             type="tel" 
-                                             className="input-exp" 
-                                             name="cardExpiry" 
-                                             placeholder="MM / YY" 
-                                             autocomplete="cc-exp" 
-                                             required 
-                                             aria-required="true" />
-                                       </label>
-                                   </div>
-                               </div>
-                               <div className="content2">
-                                   <div className="form-group">
-                                       <label className="cvc">
-                                           CVC
-                                       </label>
-                                       <input 
-                                         type="tel" 
-                                         className="input-cvc" 
-                                         name="cardCVC" 
-                                         placeholder="Security Code" 
-                                         autocomplete="cc-csc" 
-                                         required
-                                         aria-required="true" />
-                                   </div>
-                               </div>
-                           </div>
+                                          <div className="row">
+                                             <div className="content1">
+                                                <div className="form-group">
+                                                      <label className="exp">
+                                                         <span className="visible">EXP</span>&nbsp;DATE
+                                                         <input 
+                                                            type="tel" 
+                                                            className="input-exp" 
+                                                            name="cardExpiry"
+                                                            value={values.cardExpiry}
+                                                            onChange={handleChange} 
+                                                            placeholder="MM / YY" 
+                                                            autoComplete="cc-exp" 
+                                                            required 
+                                                            aria-required="true" />
+                                                      </label>
+                                                </div>
+                                             </div>
+                                             <div className="content2">
+                                                <div className="form-group">
+                                                      <label className="cvc">
+                                                         CVC
+                                                      </label>
+                                                      <input 
+                                                      type="tel" 
+                                                      className="input-cvc" 
+                                                      name="cardCVC" 
+                                                      value={values.cardCVC}
+                                                      onChange={handleChange}
+                                                      placeholder="Security Code" 
+                                                      autoComplete="cc-csc" 
+                                                      required
+                                                      aria-required="true" />
+                                                </div>
+                                             </div>
+                                          </div>
 
-                           <div className="row">
-                               <div className="plan">
-                                   <div className="planinfo">
-                                       <span className="planname">
-                                           Premium Plan
-                                       </span>
-                                       <span className="plandesc">
-                                           USD14.95/mo.
-                                       </span>
-                                   </div>
-                                   <div className="planchange">
-                                       <Link to="#" className="change">
-                                       Change
-                                       </Link>
-                                    </div>
-                               </div>
-                            </div>
-                            <br />
-                           <div className="row">
-                               <div className="btn">
-                               <button className="membership" type="button" ><a href="/">Start Membership</a></button>
-                              <br />
-                               </div>
-                           </div>
-
-                           
-                       </form>
-                   </div>
-                  
+                                          <div className="row">
+                                             <div className="plan">
+                                                <div className="planinfo">
+                                                      <span className="planname">
+                                                         Premium Plan
+                                                      </span>
+                                                      <span className="plandesc">
+                                                         USD14.95/mo.
+                                                      </span>
+                                                </div>
+                                                <div className="planchange">
+                                                      <Link to="#" className="change">
+                                                      Change
+                                                      </Link>
+                                                   </div>
+                                             </div>
+                                          </div>
+                                          <br />
+                                          <div className="row">
+                                             <div className="btn">
+                                             <button className="membership" type="submit" >Start Membership</button>
+                                             <br />
+                                             </div>
+                                          </div>  
+                                    </form>
+                                 </div>
+                  )}}>
+               </Formik>
                </div>
              </div>
       </CreditComponent>

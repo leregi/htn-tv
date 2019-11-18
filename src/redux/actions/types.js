@@ -1,6 +1,8 @@
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 export const ADD = 'ADD';
+export const ADD_CREDIT_CARD = 'ADD_CREDIT_CARD';
+export const RETRIEVE_CREDIT_CARD = 'RETRIEVE_CREDIT_CARD';
 export const RETRIEVE = 'RETRIEVE';
 export const LOGIN = 'LOGIN';
 export const REGISTER = 'REGISTER';
