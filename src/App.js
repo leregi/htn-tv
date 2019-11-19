@@ -9,6 +9,7 @@ import Registration from './pages/Registration';
 import RegisterForm from './pages/RegisterForm';
 import Membership from './pages/payment/Membership';
 import Credit from './pages/payment/Credit'
+import HomePlan from './pages/homePlans/HomePlan'
 
 
 import { connect } from 'react-redux';
@@ -52,6 +53,8 @@ class App extends Component {
           <Route path="/registration" component={Registration} />
           <Route path="/regform" component={RegisterForm} />
           {this.ProtectedRoutes()}
+          <Route path="/homeplan" component={HomePlan} />
+
         </Switch>
     );
   }

@@ -149,7 +149,8 @@ class Credit extends Component {
                                           <br />
                                           <div className="row">
                                              <div className="btn">
-                                             <button className="membership" type="submit" >Start Membership</button>
+                                             <button className="membership" type="submit" >
+                                                < Link to ="/homeplan"> Start Membership</Link></button >
                                              <br />
                                              </div>
                                           </div>  
