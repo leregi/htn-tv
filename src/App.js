@@ -32,6 +32,8 @@ class App extends Component {
         <>
           <Route path = "/membership"component = {Membership} />
           <Route path="/credit" component={Credit} />
+          <Route path="/homeplan" component={HomePlan} />
+
         </>
       )
     }else
@@ -53,8 +55,6 @@ class App extends Component {
           <Route path="/registration" component={Registration} />
           <Route path="/regform" component={RegisterForm} />
           {this.ProtectedRoutes()}
-          <Route path="/homeplan" component={HomePlan} />
-
         </Switch>
     );
   }
